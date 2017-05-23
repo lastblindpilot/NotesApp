@@ -2,8 +2,14 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var session = require('express-session');
+// библиотека к экспрессу для парсинга тела запросов
+var bodyParser = require('body-parser')
+
+// подключаем монгу базу и сервер
 var Db = require('mongodb').Db;
 var Server = require('mongodb').Server;
+// переменная для стандартных айдишников в монге
+var ObjectID = require('mongodb').ObjectID;
 var db = new Db('tutor', new Server("localhost", 27017, {safe: true}, {auto_reconnect: true}, {}));
 
 // var notes_init = [
@@ -13,6 +19,10 @@ var db = new Db('tutor', new Server("localhost", 27017, {safe: true}, {auto_reco
 // ];
 
 app.use(express.static(path.join(__dirname, '..')));
+
+// парсим тело запроса
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 app.use(session({
     secret: 'angular_tutorial',
@@ -45,8 +55,23 @@ db.open(function() {
     });
 
     app.post("/notes", function(req,res) {
-        db.notes.insert(req.body);
+        var note = req.body;
+        console.log(note);
+        db.notes.insert(note);
         res.end();
+    });
+
+    app.delete("/notes", function(req,res) {
+        console.log(req);
+        var id = new ObjectID(req.query.id);
+        db.notes.remove({_id: id}, function(err){
+            if (err) {
+                console.log(err);
+                res.send("Failed");
+            } else {
+                res.send("Success");
+            }
+        })
     });
 });
 

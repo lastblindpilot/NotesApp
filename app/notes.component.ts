@@ -4,6 +4,7 @@ import { URLSearchParams } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 interface Note {
+    _id: number;
     text: string;
 }
 
@@ -13,37 +14,48 @@ interface Note {
         `<ul>
             <li *ngFor="let note of notes; let i=index">
                 {{note.text}}
-                <button (click)="remove(i)">remove</button>
+                <button (click)="remove(note._id)">Remove</button>
                 <button (click)="sendToTop(i)">Send To Top</button>
             </li>
         </ul>
         <textarea [(ngModel)]="text"></textarea>
-        <button (click)="add()">Add</button>`
+        <button (click)="addNote()">Add</button>`
 })
 export class NotesComponent {
     private notesUrl = '/notes';  // URL to web api
-
     text: string;
-    notes: Note[] = [
-        {text:"Note one"},
-        {text:"Note two"}
-    ];
+    notes: Note[];
 
     constructor(private http: Http) { 
+        this.readNotes();
+    }
+
+    readNotes() {
         this.getNotes().then(notes=>{
             this.notes=notes
             console.log(notes);
         });
     }
-    
-    add() {
+
+    addNote() {
         let note = { text: this.text }
-        this.notes.push(note);
-        this.text = "";
+        this.http.post(this.notesUrl, note)
+            .toPromise()
+            .then(response => {
+                console.log("note sent, response", response);
+                this.readNotes();
+            });
     }
-    
-    remove(idx) {
-        this.notes.splice(idx,1);
+
+    remove(id:string) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('id', id);
+        this.http.delete(this.notesUrl, { search: params })
+            .toPromise()
+            .then(response => {
+                console.log(`note with id ${id} removed, response`, response);
+                this.readNotes();
+            });
     }
 
     getNotes(): Promise<Note[]> {

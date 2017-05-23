@@ -11,28 +11,41 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
+var http_2 = require("@angular/http");
 require("rxjs/add/operator/toPromise");
 var NotesComponent = (function () {
     function NotesComponent(http) {
-        var _this = this;
         this.http = http;
         this.notesUrl = '/notes'; // URL to web api
-        this.notes = [
-            { text: "Note one" },
-            { text: "Note two" }
-        ];
+        this.readNotes();
+    }
+    NotesComponent.prototype.readNotes = function () {
+        var _this = this;
         this.getNotes().then(function (notes) {
             _this.notes = notes;
             console.log(notes);
         });
-    }
-    NotesComponent.prototype.add = function () {
-        var note = { text: this.text };
-        this.notes.push(note);
-        this.text = "";
     };
-    NotesComponent.prototype.remove = function (idx) {
-        this.notes.splice(idx, 1);
+    NotesComponent.prototype.addNote = function () {
+        var _this = this;
+        var note = { text: this.text };
+        this.http.post(this.notesUrl, note)
+            .toPromise()
+            .then(function (response) {
+            console.log("note sent, response", response);
+            _this.readNotes();
+        });
+    };
+    NotesComponent.prototype.remove = function (id) {
+        var _this = this;
+        var params = new http_2.URLSearchParams();
+        params.set('id', id);
+        this.http.delete(this.notesUrl, { search: params })
+            .toPromise()
+            .then(function (response) {
+            console.log("note with id " + id + " removed, response", response);
+            _this.readNotes();
+        });
     };
     NotesComponent.prototype.getNotes = function () {
         return this.http.get(this.notesUrl)
@@ -50,7 +63,7 @@ var NotesComponent = (function () {
 NotesComponent = __decorate([
     core_1.Component({
         selector: 'notes',
-        template: "<ul>\n            <li *ngFor=\"let note of notes; let i=index\">\n                {{note.text}}\n                <button (click)=\"remove(i)\">remove</button>\n                <button (click)=\"sendToTop(i)\">Send To Top</button>\n            </li>\n        </ul>\n        <textarea [(ngModel)]=\"text\"></textarea>\n        <button (click)=\"add()\">Add</button>"
+        template: "<ul>\n            <li *ngFor=\"let note of notes; let i=index\">\n                {{note.text}}\n                <button (click)=\"remove(note._id)\">Remove</button>\n                <button (click)=\"sendToTop(i)\">Send To Top</button>\n            </li>\n        </ul>\n        <textarea [(ngModel)]=\"text\"></textarea>\n        <button (click)=\"addNote()\">Add</button>"
     }),
     __metadata("design:paramtypes", [http_1.Http])
 ], NotesComponent);
