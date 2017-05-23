@@ -18,7 +18,7 @@ interface Note {
         <button (click)="add()">Add</button>`
 })
 export class NotesComponent {
-    private notesUrl = 'http://localhost:8080/notes';  // URL to web api
+    private notesUrl = '/notes';  // URL to web api
 
     text: string;
     notes: Note[] = [

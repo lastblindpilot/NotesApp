@@ -16,7 +16,7 @@ var NotesComponent = (function () {
     function NotesComponent(http) {
         var _this = this;
         this.http = http;
-        this.notesUrl = 'http://localhost:8080/notes'; // URL to web api
+        this.notesUrl = '/notes'; // URL to web api
         this.notes = [
             { text: "Note one" },
             { text: "Note two" }
