@@ -11,7 +11,9 @@ interface Note {
     template: 
         `<ul>
             <li *ngFor="let note of notes; let i=index">
-                {{note.text}} <button (click)="remove(i)">remove</button>
+                {{note.text}}
+                <button (click)="remove(i)">remove</button>
+                <button (click)="sendToTop(i)">Send To Top</button>
             </li>
         </ul>
         <textarea [(ngModel)]="text"></textarea>
@@ -47,5 +49,12 @@ export class NotesComponent {
         return this.http.get(this.notesUrl)
                 .toPromise()
                 .then(response => response.json() as Note[]);
+    }
+
+    sendToTop(idx: number): void {
+        let currentNote = this.notes[idx];
+        console.log(currentNote);
+        this.notes.splice(idx,1);
+        this.notes.splice(0,0,currentNote);
     }
 }

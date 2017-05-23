@@ -39,12 +39,18 @@ var NotesComponent = (function () {
             .toPromise()
             .then(function (response) { return response.json(); });
     };
+    NotesComponent.prototype.sendToTop = function (idx) {
+        var currentNote = this.notes[idx];
+        console.log(currentNote);
+        this.notes.splice(idx, 1);
+        this.notes.splice(0, 0, currentNote);
+    };
     return NotesComponent;
 }());
 NotesComponent = __decorate([
     core_1.Component({
         selector: 'notes',
-        template: "<ul>\n            <li *ngFor=\"let note of notes; let i=index\">\n                {{note.text}} <button (click)=\"remove(i)\">remove</button>\n            </li>\n        </ul>\n        <textarea [(ngModel)]=\"text\"></textarea>\n        <button (click)=\"add()\">Add</button>"
+        template: "<ul>\n            <li *ngFor=\"let note of notes; let i=index\">\n                {{note.text}}\n                <button (click)=\"remove(i)\">remove</button>\n                <button (click)=\"sendToTop(i)\">Send To Top</button>\n            </li>\n        </ul>\n        <textarea [(ngModel)]=\"text\"></textarea>\n        <button (click)=\"add()\">Add</button>"
     }),
     __metadata("design:paramtypes", [http_1.Http])
 ], NotesComponent);

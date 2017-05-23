@@ -1,7 +1,8 @@
 {
-    "name": "tutorial",
-    "version": "0.0.1",
-    "dependencies": {
-        "express": "~4.12.4"
-    }
+  "name": "tutorial",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "~4.12.4",
+    "express-session": "^1.15.3"
+  }
 }
