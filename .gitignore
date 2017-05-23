@@ -1,0 +1,11 @@
+# Ignore build files
+build/app.js
+build/style.css
+node_modules/
+typings/
+
+#ignoring config.json in order to secure tenant credentials
+config.json
+config_sys.json
+
+.DS_Store
