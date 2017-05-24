@@ -22,11 +22,17 @@ var SectionsComponent = (function () {
         var _this = this;
         this.getSections().subscribe(function (sections) {
             _this.sections = sections;
+            if (_this.activeSection == null && _this.sections.length > 0) {
+                _this.showSection(_this.sections[0]);
+            }
         });
     };
     SectionsComponent.prototype.getSections = function () {
         return this.http.get(this.sectionsUrl)
             .map(function (response) { return response.json(); });
+    };
+    SectionsComponent.prototype.showSection = function (section) {
+        this.activeSection = section.title;
     };
     return SectionsComponent;
 }());
