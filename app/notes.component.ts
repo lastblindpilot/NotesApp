@@ -10,16 +10,7 @@ interface Note {
 
 @Component({
     selector: 'notes',
-    template: 
-        `<ul>
-            <li *ngFor="let note of notes; let i=index">
-                {{note.text}}
-                <button (click)="remove(note._id)">Remove</button>
-                <button (click)="sendToTop(i)">Send To Top</button>
-            </li>
-        </ul>
-        <textarea [(ngModel)]="text"></textarea>
-        <button (click)="addNote()">Add</button>`
+    templateUrl: 'app/notes.component.html'
 })
 export class NotesComponent {
     private notesUrl = '/notes';  // URL to web api

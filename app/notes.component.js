@@ -63,7 +63,7 @@ var NotesComponent = (function () {
 NotesComponent = __decorate([
     core_1.Component({
         selector: 'notes',
-        template: "<ul>\n            <li *ngFor=\"let note of notes; let i=index\">\n                {{note.text}}\n                <button (click)=\"remove(note._id)\">Remove</button>\n                <button (click)=\"sendToTop(i)\">Send To Top</button>\n            </li>\n        </ul>\n        <textarea [(ngModel)]=\"text\"></textarea>\n        <button (click)=\"addNote()\">Add</button>"
+        templateUrl: 'app/notes.component.html'
     }),
     __metadata("design:paramtypes", [http_1.Http])
 ], NotesComponent);
