@@ -17,18 +17,19 @@ var NotesComponent = (function () {
     function NotesComponent(http) {
         this.http = http;
         this.notesUrl = 'notes'; // URL to web api
+        this.section = "Work";
         this.readNotes();
     }
     NotesComponent.prototype.readNotes = function () {
         var _this = this;
-        this.getNotes().then(function (notes) {
+        this.getNotes().map(function (notes) {
             _this.notes = notes;
             console.log(notes);
         });
     };
     NotesComponent.prototype.addNote = function () {
         var _this = this;
-        var note = { text: this.text };
+        var note = { text: this.text, section: this.section };
         this.http.post(this.notesUrl, note)
             .toPromise()
             .then(function (response) {
@@ -48,9 +49,13 @@ var NotesComponent = (function () {
         });
     };
     NotesComponent.prototype.getNotes = function () {
-        return this.http.get(this.notesUrl)
-            .toPromise()
-            .then(function (response) { return response.json(); });
+        var params = new http_2.URLSearchParams();
+        params.set('section', this.section);
+        return this.http.get(this.notesUrl, { search: params })
+            .map(function (response) { return response.json(); });
+        // return this.http.get(this.notesUrl)
+        //         .toPromise()
+        //         .then(response => response.json() as Note[]);
     };
     NotesComponent.prototype.sendToTop = function (idx) {
         var currentNote = this.notes[idx];

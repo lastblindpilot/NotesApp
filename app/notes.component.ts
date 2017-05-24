@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import { URLSearchParams } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
+import { Observable } from 'rxjs/Observable';
 
 interface Note {
     _id: number;
     text: string;
+    section?: string;
 }
 
 @Component({
@@ -16,20 +18,22 @@ export class NotesComponent {
     private notesUrl = 'notes';  // URL to web api
     text: string;
     notes: Note[];
+    section: string;
 
-    constructor(private http: Http) { 
+    constructor(private http: Http) {
+        this.section = "Work";
         this.readNotes();
     }
 
-    readNotes() {
-        this.getNotes().then(notes=>{
+    readNotes():void {
+        this.getNotes().map(notes=>{
             this.notes=notes
             console.log(notes);
         });
     }
 
     addNote() {
-        let note = { text: this.text }
+        let note = { text: this.text, section: this.section };
         this.http.post(this.notesUrl, note)
             .toPromise()
             .then(response => {
@@ -49,10 +53,15 @@ export class NotesComponent {
             });
     }
 
-    getNotes(): Promise<Note[]> {
-        return this.http.get(this.notesUrl)
-                .toPromise()
-                .then(response => response.json() as Note[]);
+    getNotes(): Observable<Note[]> {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('section', this.section);
+        
+        return this.http.get(this.notesUrl, {search:params})
+                .map(response => response.json() as Note[]);
+        // return this.http.get(this.notesUrl)
+        //         .toPromise()
+        //         .then(response => response.json() as Note[]);
     }
 
     sendToTop(idx: number): void {
