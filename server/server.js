@@ -48,6 +48,10 @@ db.open(function() {
         db.notes = notes;
     });
 
+    db.collection('sections', function(error, sections) {
+		db.sections = sections;
+	});
+
     app.get("/notes", function(req,res) {
         db.notes.find(req.query).toArray(function(err, items) {
             res.send(items);
@@ -72,6 +76,12 @@ db.open(function() {
                 res.send("Success");
             }
         })
+    });
+
+    app.get("/sections", function(req,res) {
+        db.sections.find(req.query).toArray(function(err, items) {
+            res.send(items);
+        });
     });
 });
 

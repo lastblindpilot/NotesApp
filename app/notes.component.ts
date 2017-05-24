@@ -13,7 +13,7 @@ interface Note {
     templateUrl: 'app/notes.component.html'
 })
 export class NotesComponent {
-    private notesUrl = '/notes';  // URL to web api
+    private notesUrl = 'notes';  // URL to web api
     text: string;
     notes: Note[];
 

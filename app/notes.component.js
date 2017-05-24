@@ -16,7 +16,7 @@ require("rxjs/add/operator/toPromise");
 var NotesComponent = (function () {
     function NotesComponent(http) {
         this.http = http;
-        this.notesUrl = '/notes'; // URL to web api
+        this.notesUrl = 'notes'; // URL to web api
         this.readNotes();
     }
     NotesComponent.prototype.readNotes = function () {
