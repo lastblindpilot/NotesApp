@@ -21,6 +21,7 @@ var notes_server_service_1 = require("./services/notes-server.service");
 var appRoutes = [
     { path: '', component: noteseditor_component_1.NotesEditorComponent },
     { path: 'viewSection/:name', component: view_section_component_1.ViewSectionComponent },
+    { path: ':name', component: noteseditor_component_1.NotesEditorComponent },
     { path: '**', component: page_not_found_component_1.PageNotFoundComponent }
 ];
 var AppModule = (function () {

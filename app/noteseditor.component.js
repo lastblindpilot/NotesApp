@@ -13,11 +13,16 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var NotesEditorComponent = (function () {
     function NotesEditorComponent(route, router) {
+        var _this = this;
         this.route = route;
         this.router = router;
+        this.route.params
+            .map(function (params) { return params["name"]; })
+            .subscribe(function (section) { return _this.section = section; });
     }
     NotesEditorComponent.prototype.setSection = function (section) {
         this.section = section;
+        this.router.navigate([section]);
     };
     return NotesEditorComponent;
 }());

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -20,6 +20,13 @@ export class SectionsComponent {
 
     constructor(private http: Http) { 
         this.readSections();
+    }
+
+    @Input()
+    set section(section:string) {
+        if (section && section.length>0) {
+        this.activeSection = section;
+        }
     }
     
     @Output() sectionChanged: EventEmitter<string> = new EventEmitter<string>();
