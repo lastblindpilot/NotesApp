@@ -17,10 +17,12 @@ var sections_component_1 = require("./sections.component");
 var noteseditor_component_1 = require("./noteseditor.component");
 var page_not_found_component_1 = require("./page-not-found.component");
 var view_section_component_1 = require("./view-section.component");
+var user_form_component_1 = require("./user-form.component");
 var notes_server_service_1 = require("./services/notes-server.service");
 var appRoutes = [
     { path: '', component: noteseditor_component_1.NotesEditorComponent },
     { path: 'viewSection/:name', component: view_section_component_1.ViewSectionComponent },
+    { path: 'register', component: user_form_component_1.UserFormComponent },
     { path: ':name', component: noteseditor_component_1.NotesEditorComponent },
     { path: '**', component: page_not_found_component_1.PageNotFoundComponent }
 ];
@@ -40,7 +42,8 @@ AppModule = __decorate([
             sections_component_1.SectionsComponent,
             noteseditor_component_1.NotesEditorComponent,
             page_not_found_component_1.PageNotFoundComponent,
-            view_section_component_1.ViewSectionComponent],
+            view_section_component_1.ViewSectionComponent,
+            user_form_component_1.UserFormComponent],
         bootstrap: [app_component_1.AppComponent],
         providers: [notes_server_service_1.NotesServerService]
     })
