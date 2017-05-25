@@ -30,9 +30,16 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule, router_1.RouterModule.forRoot(appRoutes), forms_1.FormsModule, http_1.HttpModule],
-        declarations: [app_component_1.AppComponent, notes_component_1.NotesComponent, sections_component_1.SectionsComponent, noteseditor_component_1.NotesEditorComponent,
-            page_not_found_component_1.PageNotFoundComponent, view_section_component_1.ViewSectionComponent],
+        imports: [platform_browser_1.BrowserModule,
+            router_1.RouterModule.forRoot(appRoutes),
+            forms_1.FormsModule,
+            http_1.HttpModule],
+        declarations: [app_component_1.AppComponent,
+            notes_component_1.NotesComponent,
+            sections_component_1.SectionsComponent,
+            noteseditor_component_1.NotesEditorComponent,
+            page_not_found_component_1.PageNotFoundComponent,
+            view_section_component_1.ViewSectionComponent],
         bootstrap: [app_component_1.AppComponent],
         providers: [notes_server_service_1.NotesServerService]
     })

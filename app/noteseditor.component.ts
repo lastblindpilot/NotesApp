@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
     selector: 'notes-editor',
@@ -6,7 +7,9 @@ import { Component } from '@angular/core';
 })
 export class NotesEditorComponent {
     section: string;
-    
+
+    constructor(private route: ActivatedRoute, private router: Router) {}
+
     setSection(section:string) {
         this.section = section;
     }

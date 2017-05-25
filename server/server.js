@@ -12,13 +12,14 @@ var Server = require('mongodb').Server;
 var ObjectID = require('mongodb').ObjectID;
 var db = new Db('tutor', new Server("localhost", 27017, {safe: true}, {auto_reconnect: true}, {}));
 
+var root = __dirname + '/..';
+
 // var notes_init = [
 //     {text: "First note"},
 //     {text: "Second note"},
 //     {text: "Third note"}
 // ];
-
-app.use(express.static(path.join(__dirname, '..')));
+app.use(express.static(root));
 
 // парсим тело запроса
 app.use(bodyParser.urlencoded({extended: true}));
@@ -83,6 +84,10 @@ db.open(function() {
         db.sections.find(req.query).toArray(function(err, items) {
             res.send(items);
         });
+    });
+
+    app.get("*", function(req, res, next) {
+        res.sendFile('index.html', { root : root });
     });
 });
 

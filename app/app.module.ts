@@ -18,9 +18,16 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  imports:      [ BrowserModule, RouterModule.forRoot(appRoutes), FormsModule, HttpModule ],
-  declarations: [ AppComponent, NotesComponent, SectionsComponent, NotesEditorComponent, 
-                  PageNotFoundComponent, ViewSectionComponent ],
+  imports:      [ BrowserModule, 
+                  RouterModule.forRoot(appRoutes), 
+                  FormsModule, 
+                  HttpModule ],
+  declarations: [ AppComponent, 
+                  NotesComponent, 
+                  SectionsComponent, 
+                  NotesEditorComponent, 
+                  PageNotFoundComponent, 
+                  ViewSectionComponent ],
   bootstrap:    [ AppComponent ],
   providers:    [ NotesServerService ]
 })
