@@ -16,8 +16,11 @@ var notes_component_1 = require("./notes.component");
 var sections_component_1 = require("./sections.component");
 var noteseditor_component_1 = require("./noteseditor.component");
 var page_not_found_component_1 = require("./page-not-found.component");
+var view_section_component_1 = require("./view-section.component");
+var notes_server_service_1 = require("./services/notes-server.service");
 var appRoutes = [
     { path: '', component: noteseditor_component_1.NotesEditorComponent },
+    { path: 'viewSection/:name', component: view_section_component_1.ViewSectionComponent },
     { path: '**', component: page_not_found_component_1.PageNotFoundComponent }
 ];
 var AppModule = (function () {
@@ -28,8 +31,10 @@ var AppModule = (function () {
 AppModule = __decorate([
     core_1.NgModule({
         imports: [platform_browser_1.BrowserModule, router_1.RouterModule.forRoot(appRoutes), forms_1.FormsModule, http_1.HttpModule],
-        declarations: [app_component_1.AppComponent, notes_component_1.NotesComponent, sections_component_1.SectionsComponent, noteseditor_component_1.NotesEditorComponent, page_not_found_component_1.PageNotFoundComponent],
-        bootstrap: [app_component_1.AppComponent]
+        declarations: [app_component_1.AppComponent, notes_component_1.NotesComponent, sections_component_1.SectionsComponent, noteseditor_component_1.NotesEditorComponent,
+            page_not_found_component_1.PageNotFoundComponent, view_section_component_1.ViewSectionComponent],
+        bootstrap: [app_component_1.AppComponent],
+        providers: [notes_server_service_1.NotesServerService]
     })
 ], AppModule);
 exports.AppModule = AppModule;

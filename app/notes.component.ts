@@ -3,8 +3,9 @@ import { Http } from '@angular/http';
 import { URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
+import { NotesServerService } from './services/notes-server.service';
 
-interface Note {
+export interface Note {
     _id: number;
     text: string;
     section?: string;
@@ -21,14 +22,14 @@ export class NotesComponent implements OnChanges {
     @Input() 
     section: string;
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private notesServer: NotesServerService) { }
 
     ngOnChanges(): void {
         this.readNotes();
     }
 
     readNotes(): void {
-        this.getNotes().map(notes=>{
+        this.getNotes().subscribe(notes=>{
             this.notes=notes
             console.log(notes);
         });
@@ -55,22 +56,14 @@ export class NotesComponent implements OnChanges {
             });
     }
 
-    getNotes(): Observable<Note[]> {
-        let params: URLSearchParams = new URLSearchParams();
-        params.set('section', this.section);
-    
-        return this.http.get(this.notesUrl, {search:params})
-                .map(response => {
-                    // let notes: Note[] = response.json()
-                    // console.log(notes);
-                    return response.json() as Note[]
-                });
-    }
-
     sendToTop(idx: number): void {
         let currentNote = this.notes[idx];
         console.log(currentNote);
         this.notes.splice(idx,1);
         this.notes.splice(0,0,currentNote);
+    }
+    
+    getNotes() {
+        return this.notesServer.getNotes(this.section);
     }
 }

@@ -8,15 +8,20 @@ import { NotesComponent } from './notes.component';
 import { SectionsComponent } from './sections.component';
 import { NotesEditorComponent } from './noteseditor.component';
 import { PageNotFoundComponent } from './page-not-found.component';
+import { ViewSectionComponent } from './view-section.component';
+import { NotesServerService } from './services/notes-server.service';
 
 const appRoutes: Routes = [
   { path: '', component: NotesEditorComponent },
+  { path: 'viewSection/:name', component: ViewSectionComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
   imports:      [ BrowserModule, RouterModule.forRoot(appRoutes), FormsModule, HttpModule ],
-  declarations: [ AppComponent, NotesComponent, SectionsComponent, NotesEditorComponent, PageNotFoundComponent ],
-  bootstrap:    [ AppComponent ]
+  declarations: [ AppComponent, NotesComponent, SectionsComponent, NotesEditorComponent, 
+                  PageNotFoundComponent, ViewSectionComponent ],
+  bootstrap:    [ AppComponent ],
+  providers:    [ NotesServerService ]
 })
 export class AppModule { }

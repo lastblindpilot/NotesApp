@@ -13,9 +13,11 @@ var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var http_2 = require("@angular/http");
 require("rxjs/add/operator/toPromise");
+var notes_server_service_1 = require("./services/notes-server.service");
 var NotesComponent = (function () {
-    function NotesComponent(http) {
+    function NotesComponent(http, notesServer) {
         this.http = http;
+        this.notesServer = notesServer;
         this.notesUrl = 'notes'; // URL to web api
     }
     NotesComponent.prototype.ngOnChanges = function () {
@@ -23,7 +25,7 @@ var NotesComponent = (function () {
     };
     NotesComponent.prototype.readNotes = function () {
         var _this = this;
-        this.getNotes().map(function (notes) {
+        this.getNotes().subscribe(function (notes) {
             _this.notes = notes;
             console.log(notes);
         });
@@ -49,21 +51,14 @@ var NotesComponent = (function () {
             _this.readNotes();
         });
     };
-    NotesComponent.prototype.getNotes = function () {
-        var params = new http_2.URLSearchParams();
-        params.set('section', this.section);
-        return this.http.get(this.notesUrl, { search: params })
-            .map(function (response) {
-            // let notes: Note[] = response.json()
-            // console.log(notes);
-            return response.json();
-        });
-    };
     NotesComponent.prototype.sendToTop = function (idx) {
         var currentNote = this.notes[idx];
         console.log(currentNote);
         this.notes.splice(idx, 1);
         this.notes.splice(0, 0, currentNote);
+    };
+    NotesComponent.prototype.getNotes = function () {
+        return this.notesServer.getNotes(this.section);
     };
     return NotesComponent;
 }());
@@ -76,7 +71,7 @@ NotesComponent = __decorate([
         selector: 'notes',
         templateUrl: 'app/notes.component.html'
     }),
-    __metadata("design:paramtypes", [http_1.Http])
+    __metadata("design:paramtypes", [http_1.Http, notes_server_service_1.NotesServerService])
 ], NotesComponent);
 exports.NotesComponent = NotesComponent;
 //# sourceMappingURL=notes.component.js.map
