@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { Http } from '@angular/http';
 import { URLSearchParams } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/toPromise';
 
 interface Note {
     _id: number;
@@ -14,18 +14,20 @@ interface Note {
     selector: 'notes',
     templateUrl: 'app/notes.component.html'
 })
-export class NotesComponent {
+export class NotesComponent implements OnChanges {
     private notesUrl = 'notes';  // URL to web api
     text: string;
     notes: Note[];
+    @Input() 
     section: string;
 
-    constructor(private http: Http) {
-        this.section = "Work";
+    constructor(private http: Http) { }
+
+    ngOnChanges(): void {
         this.readNotes();
     }
 
-    readNotes():void {
+    readNotes(): void {
         this.getNotes().map(notes=>{
             this.notes=notes
             console.log(notes);
@@ -56,12 +58,13 @@ export class NotesComponent {
     getNotes(): Observable<Note[]> {
         let params: URLSearchParams = new URLSearchParams();
         params.set('section', this.section);
-        
+    
         return this.http.get(this.notesUrl, {search:params})
-                .map(response => response.json() as Note[]);
-        // return this.http.get(this.notesUrl)
-        //         .toPromise()
-        //         .then(response => response.json() as Note[]);
+                .map(response => {
+                    // let notes: Note[] = response.json()
+                    // console.log(notes);
+                    return response.json() as Note[]
+                });
     }
 
     sendToTop(idx: number): void {

@@ -53,6 +53,7 @@ db.open(function() {
 	});
 
     app.get("/notes", function(req,res) {
+        console.log("here");
         db.notes.find(req.query).toArray(function(err, items) {
             res.send(items);
         });

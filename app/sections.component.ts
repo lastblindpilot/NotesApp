@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -21,6 +21,8 @@ export class SectionsComponent {
     constructor(private http: Http) { 
         this.readSections();
     }
+    
+    @Output() sectionChanged: EventEmitter<string> = new EventEmitter<string>();
 
     readSections() {
         this.getSections().subscribe(sections=>{
@@ -35,8 +37,9 @@ export class SectionsComponent {
         return this.http.get(this.sectionsUrl)
                 .map(response => response.json() as Section[]);
     }
-
+    
     showSection(section:Section) {
-        this.activeSection = section.title; 
+        this.activeSection = section.title;
+        this.sectionChanged.emit(this.activeSection);
     }
 }

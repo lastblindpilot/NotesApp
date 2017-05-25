@@ -14,8 +14,8 @@
 <div class="panel panel-default">
     <div class="panel-heading">Notes</div>
 
-    <ul class="list-group" ng-repeat="note in notes">
-        <li *ngFor="let note of notes" class="list-group-item">
+    <ul class="list-group">
+        <li *ngFor="let note of notes; let i=index" class="list-group-item">
             {{note.text}}
         </li>
     </ul>

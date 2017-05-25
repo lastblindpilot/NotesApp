@@ -17,9 +17,10 @@ var NotesComponent = (function () {
     function NotesComponent(http) {
         this.http = http;
         this.notesUrl = 'notes'; // URL to web api
-        this.section = "Work";
-        this.readNotes();
     }
+    NotesComponent.prototype.ngOnChanges = function () {
+        this.readNotes();
+    };
     NotesComponent.prototype.readNotes = function () {
         var _this = this;
         this.getNotes().map(function (notes) {
@@ -52,10 +53,11 @@ var NotesComponent = (function () {
         var params = new http_2.URLSearchParams();
         params.set('section', this.section);
         return this.http.get(this.notesUrl, { search: params })
-            .map(function (response) { return response.json(); });
-        // return this.http.get(this.notesUrl)
-        //         .toPromise()
-        //         .then(response => response.json() as Note[]);
+            .map(function (response) {
+            // let notes: Note[] = response.json()
+            // console.log(notes);
+            return response.json();
+        });
     };
     NotesComponent.prototype.sendToTop = function (idx) {
         var currentNote = this.notes[idx];
@@ -65,6 +67,10 @@ var NotesComponent = (function () {
     };
     return NotesComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], NotesComponent.prototype, "section", void 0);
 NotesComponent = __decorate([
     core_1.Component({
         selector: 'notes',
