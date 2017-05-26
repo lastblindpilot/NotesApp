@@ -12,6 +12,7 @@ import { ViewSectionComponent } from './view-section.component';
 import { UserFormComponent } from './user-form.component';
 import { NotesServerService } from './services/notes-server.service';
 import { EqualToValidator } from './directives/EqualToValidator';
+import { UserUniqueValidator } from './directives/UserUniqueValidator';
 
 const appRoutes: Routes = [
   { path: '', component: NotesEditorComponent },
@@ -33,7 +34,8 @@ const appRoutes: Routes = [
                   PageNotFoundComponent, 
                   ViewSectionComponent,
                   UserFormComponent,
-                  EqualToValidator ],
+                  EqualToValidator,
+                  UserUniqueValidator ],
   bootstrap:    [ AppComponent ],
   providers:    [ NotesServerService ]
 })

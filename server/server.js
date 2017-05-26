@@ -85,10 +85,16 @@ db.open(function() {
         });
     });
 
+    app.get("/checkUserUnique", function(req,res) {
+        res.send(req.query.user.length>2);
+    });
+
     app.get("*", function(req, res, next) {
-        res.sendFile('index.html', { root : root });
+            res.sendFile('index.html', { root : root });
     });
 });
+
+
 
 /*
 
