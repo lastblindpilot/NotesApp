@@ -15,8 +15,9 @@
                         id="userName"
                         name="userName" 
                         placeholder="Username"
-                        #name="ngModel" 
-                        [(ngModel)]="user.name">
+                        #name="ngModel"
+                        [(ngModel)]="user.name"
+                        required>
             </div>
             
             <div class="form-group">
@@ -27,7 +28,8 @@
                         name="password" 
                         placeholder="Password"
                         #password="ngModel" 
-                        [(ngModel)]="user.password">
+                        [(ngModel)]="user.password"
+                        required>
             </div>
 
             <div class="form-group">
@@ -38,7 +40,8 @@
                         name="password2" 
                         placeholder="Password"
                         #password2="ngModel" 
-                        [(ngModel)]="user.password2">
+                        [(ngModel)]="user.password2"
+                        required>
             </div>
 
             <div class="form-group">
@@ -49,7 +52,8 @@
                         name="dateOfBirth" 
                         placeholder="Date of birth"
                         #dateOfBirth="ngModel" 
-                        [(ngModel)]="user.dateOfBirth">
+                        [(ngModel)]="user.dateOfBirth"
+                        required>
             </div>
 
             <div class="form-group" *ngIf="user.subscribe">
@@ -60,7 +64,11 @@
                         name="dateOfBirth" 
                         placeholder="Date of birth"
                         #dateOfBirth="ngModel" 
-                        [(ngModel)]="user.dateOfBirth">
+                        [(ngModel)]="user.dateOfBirth"
+                        pattern="[0-9][0-9]\.[0-1][0-9]\.[1-2][0-9][0-9][0-9]">
+                <span *ngIf="dateOfBirth.errors && dateOfBirth.errors.pattern && dateOfBirth.touched">
+                    Date of birth should be in format dd.mm.yyyy
+                </span>
             </div>
 
             <div class="form-group">
