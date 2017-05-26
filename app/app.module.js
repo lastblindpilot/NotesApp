@@ -21,6 +21,8 @@ var user_form_component_1 = require("./user-form.component");
 var notes_server_service_1 = require("./services/notes-server.service");
 var EqualToValidator_1 = require("./directives/EqualToValidator");
 var UserUniqueValidator_1 = require("./directives/UserUniqueValidator");
+var LoginService_1 = require("./services/LoginService");
+var login_form_component_1 = require("./login-form.component");
 var appRoutes = [
     { path: '', component: noteseditor_component_1.NotesEditorComponent },
     { path: 'viewSection/:name', component: view_section_component_1.ViewSectionComponent },
@@ -47,9 +49,10 @@ AppModule = __decorate([
             view_section_component_1.ViewSectionComponent,
             user_form_component_1.UserFormComponent,
             EqualToValidator_1.EqualToValidator,
-            UserUniqueValidator_1.UserUniqueValidator],
+            UserUniqueValidator_1.UserUniqueValidator,
+            login_form_component_1.LoginFormComponent],
         bootstrap: [app_component_1.AppComponent],
-        providers: [notes_server_service_1.NotesServerService]
+        providers: [notes_server_service_1.NotesServerService, LoginService_1.LoginService]
     })
 ], AppModule);
 exports.AppModule = AppModule;

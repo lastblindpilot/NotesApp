@@ -57,13 +57,33 @@ db.open(function() {
         db.users = users;
     });
 
+    app.post("/login", function(req,res) {
+        db.users.find({   
+                    name: req.body.name,
+                    password: req.body.password  
+                })
+        .toArray(function(err, items) {
+            if (items.length>0) {
+                req.session.userName = req.body.name;
+            }
+            res.send(items.length>0);
+        });
+    });
+
+    app.get("/logout", function(req, res) {
+        req.session.userName = null;
+        res.end();
+    });
+
     app.get("/notes", function(req,res) {
+        setUserQuery(req);
         db.notes.find(req.query).toArray(function(err, items) {
             res.send(items);
         });
     });
 
     app.post("/notes", function(req,res) {
+        req.body.userName = req.session.userName || "demo";
         var note = req.body;
         console.log(note);
         db.notes.insert(note);
@@ -71,6 +91,7 @@ db.open(function() {
     });
 
     app.delete("/notes", function(req,res) {
+        setUserQuery(req);
         console.log(req);
         var id = new ObjectID(req.query.id);
         db.notes.remove({_id: id}, function(err){
@@ -83,16 +104,28 @@ db.open(function() {
         })
     });
 
-    app.post("/users", function(req,res) {
+    app.post("/users", function(req,res) {        
         db.users.insert(req.body, function(resp) {
-            req.session.userName = req.body.name; 
+            req.session.userName = req.body.name;
             res.end();
         });
     });
 
     app.get("/sections", function(req,res) {
-        db.sections.find(req.query).toArray(function(err, items) {
-            res.send(items);
+        var userName = req.session.userName || "demo";
+        db.users.find({name:userName})
+            .toArray(function(err, items) {
+                var user = items[0];
+                res.send(user.sections||[]);
+            });
+    });
+
+    app.post("/sections/replace", function(req,res) {
+        var userName = req.session.userName || "demo";
+        db.users.update({userName:userName},
+            {$set:{sections:req.body}},
+            function() {
+                res.end();
         });
     });
 
@@ -109,11 +142,13 @@ db.open(function() {
     });
 
     app.get("*", function(req, res, next) {
-            res.sendFile('index.html', { root : root });
+        res.sendFile('index.html', { root : root });
     });
 });
 
-
+function setUserQuery(req) {
+	req.query.name = req.session.userName || "demo";
+}
 
 /*
 

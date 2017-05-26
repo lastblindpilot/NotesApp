@@ -13,6 +13,8 @@ import { UserFormComponent } from './user-form.component';
 import { NotesServerService } from './services/notes-server.service';
 import { EqualToValidator } from './directives/EqualToValidator';
 import { UserUniqueValidator } from './directives/UserUniqueValidator';
+import { LoginService } from './services/LoginService';
+import { LoginFormComponent } from './login-form.component';
 
 const appRoutes: Routes = [
   { path: '', component: NotesEditorComponent },
@@ -35,8 +37,9 @@ const appRoutes: Routes = [
                   ViewSectionComponent,
                   UserFormComponent,
                   EqualToValidator,
-                  UserUniqueValidator ],
+                  UserUniqueValidator,
+                  LoginFormComponent ],
   bootstrap:    [ AppComponent ],
-  providers:    [ NotesServerService ]
+  providers:    [ NotesServerService, LoginService ]
 })
 export class AppModule { }

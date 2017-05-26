@@ -12,12 +12,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 require("rxjs/add/operator/map");
+var LoginService_1 = require("./services/LoginService");
 var SectionsComponent = (function () {
-    function SectionsComponent(http) {
+    function SectionsComponent(http, loginService) {
+        var _this = this;
         this.http = http;
+        this.loginService = loginService;
         this.sectionsUrl = 'sections'; // URL to web api
+        this.sectionsReplaceUrl = "/sections/replace";
         this.sectionChanged = new core_1.EventEmitter();
         this.readSections();
+        this.loginService.userLogin$.subscribe(function (user) { return _this.readSections(); });
     }
     Object.defineProperty(SectionsComponent.prototype, "section", {
         set: function (section) {
@@ -45,6 +50,19 @@ var SectionsComponent = (function () {
         this.activeSection = section.title;
         this.sectionChanged.emit(this.activeSection);
     };
+    // addSection(newSection: HTMLInputElement) {
+    //     if (!.title) return;
+    //     // check for duplicates
+    //     if (this.sections.map(s=>s.title).find(t=>t===title)) return;
+    //     const section: Section = { title };
+    //     this.sections.unshift(section);
+    //     this.showSection(section);
+    //     // write sections to server and clear add section input box
+    //     this.writeSections().subscribe(res=>newSection.value = "");
+    // }
+    SectionsComponent.prototype.writeSections = function () {
+        return this.http.post(this.sectionsReplaceUrl, this.sections);
+    };
     return SectionsComponent;
 }());
 __decorate([
@@ -61,7 +79,7 @@ SectionsComponent = __decorate([
         selector: 'sections',
         templateUrl: 'app/sections.component.html'
     }),
-    __metadata("design:paramtypes", [http_1.Http])
+    __metadata("design:paramtypes", [http_1.Http, LoginService_1.LoginService])
 ], SectionsComponent);
 exports.SectionsComponent = SectionsComponent;
 //# sourceMappingURL=sections.component.js.map

@@ -13,16 +13,23 @@ var core_1 = require("@angular/core");
 var User_1 = require("./model/User");
 var http_1 = require("@angular/http");
 var router_1 = require("@angular/router");
+var LoginService_1 = require("./services/LoginService");
 var UserFormComponent = (function () {
-    function UserFormComponent(http, router) {
+    function UserFormComponent(http, router, loginService) {
         this.http = http;
         this.router = router;
+        this.loginService = loginService;
         this.user = new User_1.User();
     }
     UserFormComponent.prototype.onSubmit = function () {
         var _this = this;
         this.http.post("users", this.user).subscribe(function (res) {
-            _this.router.navigateByUrl("");
+            _this.loginService.login({
+                name: _this.user.name,
+                password: _this.user.password
+            })
+                .subscribe(function (res) { if (res)
+                _this.router.navigateByUrl("/"); });
         });
     };
     return UserFormComponent;
@@ -33,7 +40,7 @@ UserFormComponent = __decorate([
         templateUrl: 'app/user-form.component.html',
         styles: ["\n        input.ng-touched.ng-invalid {\n            background-color: #ffe8f1;\n        }"]
     }),
-    __metadata("design:paramtypes", [http_1.Http, router_1.Router])
+    __metadata("design:paramtypes", [http_1.Http, router_1.Router, LoginService_1.LoginService])
 ], UserFormComponent);
 exports.UserFormComponent = UserFormComponent;
 //# sourceMappingURL=user-form.component.js.map
