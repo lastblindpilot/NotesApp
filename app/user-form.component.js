@@ -11,10 +11,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var User_1 = require("./model/User");
+var http_1 = require("@angular/http");
+var router_1 = require("@angular/router");
 var UserFormComponent = (function () {
-    function UserFormComponent() {
+    function UserFormComponent(http, router) {
+        this.http = http;
+        this.router = router;
         this.user = new User_1.User();
     }
+    UserFormComponent.prototype.onSubmit = function () {
+        var _this = this;
+        this.http.post("users", this.user).subscribe(function (res) {
+            _this.router.navigateByUrl("");
+        });
+    };
     return UserFormComponent;
 }());
 UserFormComponent = __decorate([
@@ -23,7 +33,7 @@ UserFormComponent = __decorate([
         templateUrl: 'app/user-form.component.html',
         styles: ["\n        input.ng-touched.ng-invalid {\n            background-color: #ffe8f1;\n        }"]
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [http_1.Http, router_1.Router])
 ], UserFormComponent);
 exports.UserFormComponent = UserFormComponent;
 //# sourceMappingURL=user-form.component.js.map

@@ -54,29 +54,30 @@
 
             <div class="form-group">
                 <label for="dateOfBirth">Repeat password</label>
-                <input  type="date" 
-                        class="form-control" 
+                <!--TODO: Change input type to Date and fix validator-->
+                <input  type="text"
+                        class="form-control"
                         id="dateOfBirth"
-                        name="dateOfBirth" 
+                        name="dateOfBirth"
                         placeholder="Date of birth"
-                        #dateOfBirth="ngModel" 
+                        #dateOfBirth="ngModel"
                         [(ngModel)]="user.dateOfBirth"
-                        required > 
+                        required
+                        pattern="[0-9][0-9]\.[0-1][0-9]\.[1-2][0-9][0-9][0-9]" > 
+                <span *ngIf="dateOfBirth.errors && dateOfBirth.errors.pattern && dateOfBirth.touched">
+                    Date of birth should be in format dd.mm.yyyy
+                </span>
             </div>
 
             <div class="form-group" *ngIf="user.subscribe">
                 <label for="email">Email</label>
                 <input  type="email"
                         class="form-control" 
-                        id="dateOfBirth"
-                        name="dateOfBirth" 
+                        id="email"
+                        name="email" 
                         placeholder="Email"
-                        #dateOfBirth="ngModel" 
-                        [(ngModel)]="user.dateOfBirth"
-                        pattern="[0-9][0-9]\.[0-1][0-9]\.[1-2][0-9][0-9][0-9]" >
-                <span *ngIf="dateOfBirth.errors && dateOfBirth.errors.pattern && dateOfBirth.touched">
-                    Date of birth should be in format dd.mm.yyyy
-                </span>
+                        #email="ngModel" 
+                        [(ngModel)]="user.email">
             </div>
 
             <div class="form-group">

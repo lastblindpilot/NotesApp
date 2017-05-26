@@ -53,6 +53,10 @@ db.open(function() {
 		db.sections = sections;
 	});
 
+    db.collection('users', function(error, users) {
+        db.users = users;
+    });
+
     app.get("/notes", function(req,res) {
         db.notes.find(req.query).toArray(function(err, items) {
             res.send(items);
@@ -79,6 +83,13 @@ db.open(function() {
         })
     });
 
+    app.post("/users", function(req,res) {
+        db.users.insert(req.body, function(resp) {
+            req.session.userName = req.body.name; 
+            res.end();
+        });
+    });
+
     app.get("/sections", function(req,res) {
         db.sections.find(req.query).toArray(function(err, items) {
             res.send(items);
@@ -86,7 +97,15 @@ db.open(function() {
     });
 
     app.get("/checkUserUnique", function(req,res) {
-        res.send(req.query.user.length>2);
+        let userName = req.query.user;
+        db.users.find({name: userName}).toArray(function(err, items) {
+            if (items[0]) {
+                console.log(items);
+                res.send(false);
+            } else {
+                res.send(true);
+            }
+        });
     });
 
     app.get("*", function(req, res, next) {
