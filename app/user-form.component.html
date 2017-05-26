@@ -41,7 +41,11 @@
                         placeholder="Password"
                         #password2="ngModel" 
                         [(ngModel)]="user.password2"
-                        required>
+                        required
+                        validateEqual="password"><!-- <<= Custom validator -->
+                <span *ngIf="password2.errors && !password2.errors.validateEqual && password2.touched">
+                    Passwords should match
+                </span>
             </div>
 
             <div class="form-group">
@@ -53,7 +57,7 @@
                         placeholder="Date of birth"
                         #dateOfBirth="ngModel" 
                         [(ngModel)]="user.dateOfBirth"
-                        required>
+                        required> 
             </div>
 
             <div class="form-group" *ngIf="user.subscribe">
@@ -62,7 +66,7 @@
                         class="form-control" 
                         id="dateOfBirth"
                         name="dateOfBirth" 
-                        placeholder="Date of birth"
+                        placeholder="Email"
                         #dateOfBirth="ngModel" 
                         [(ngModel)]="user.dateOfBirth"
                         pattern="[0-9][0-9]\.[0-1][0-9]\.[1-2][0-9][0-9][0-9]">
